@@ -17,20 +17,22 @@ public class Server {
       public Server(int porta) {
         this.porta=porta;
         try {
-           this.sSocket=new ServerSocket(this.porta);
+           this.sSocket=new ServerSocket(porta);  //socket(), bind(), listen();
+           System.out.println("il server è in ascolto");
         } catch (IOException ex) {
            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("errore nella fase di ascolto");
         }
     }
       
         public Socket attendi() {
         //consento l'ingresso di dati dalla porta
         try {
-             this.cSocket = sSocket.accept();
-              
-           System.out.println("Connessione Effettuata");
+            cSocket = sSocket.accept(); //attende connessioni finche il client non si collega
+            System.out.println("Connessione Riuscita");
         } catch (IOException e) {
             System.err.println(e);
+            System.out.println("Connessione fallita al metodo accept()");
         }
         return cSocket;
     } 
@@ -48,9 +50,8 @@ public class Server {
     }
 
     public void termina() {
-        try {
-            //chiudo il server
-            sSocket.close();
+        try {            
+            sSocket.close(); //chiudo il server
         } catch (IOException e) {
             System.err.println(e);
         }
