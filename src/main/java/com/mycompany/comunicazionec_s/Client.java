@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.net.ConnectException;
 
 public class Client {
     
@@ -22,7 +23,11 @@ public class Client {
         System.out.println("Client collegato alla porta " + portaS + " in esecuzione\n");
         try {
             this.socket = new Socket(nomeS, portaS); //collegamento alla porta indicata per l'invio di dati, socket(), connect();
-        } catch(UnknownHostException ex){ 
+        } catch(ConnectException e) {
+            System.err.println("server non in ascolto");
+            System.err.println(e);
+        }
+        catch(UnknownHostException ex){ 
             System.err.println("Host sconosciuto");
             System.err.println(ex);
         } catch (IOException e){
