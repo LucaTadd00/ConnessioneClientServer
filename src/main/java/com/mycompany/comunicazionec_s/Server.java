@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.BindException;
 
 
 public class Server {
@@ -30,6 +31,9 @@ public class Server {
         try {
             cSocket = sSocket.accept(); //attende connessioni finche il client non si collega
             System.out.println("Connessione Riuscita");
+        } catch (BindException e) {
+            System.err.println(e);
+            System.out.println("server gia avviato e occupa la porta");
         } catch (IOException e) {
             System.err.println(e);
             System.out.println("Connessione fallita al metodo accept()");
