@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.net.ConnectException;
+import java.io.*;
+import java.util.Scanner;
 
 public class Client {
     
@@ -38,11 +40,32 @@ public class Client {
     }
     
     public void leggi() {
-       
+        try {
+            InputStream inputStream = socket.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            
+            System.out.println("Risposta dal server: " + in.readLine());
+            
+            in.close();
+        } catch (IOException e) {
+            System.err.println("errore nella ricezioni di dati dal server");
+            System.err.println(e);
+        }
     }
     
     public void scrivi() {
-       
+        Scanner s = new Scanner(System.in);
+        try {
+         OutputStream outputStream = socket.getOutputStream();
+         PrintWriter out = new PrintWriter(outputStream, true);
+         System.out.println("inserisci l'informazione da dare al server");
+         String dato = s.nextLine();
+         
+         out.println(dato);
+                 
+        } catch (IOException e) {
+            System.err.println("errore nell'invio di dati al server");
+        }
     }
 
     public void chiudi() {
