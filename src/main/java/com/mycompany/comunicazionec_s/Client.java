@@ -46,7 +46,7 @@ public class Client {
             
             System.out.println("Risposta dal server: " + in.readLine());
             
-            in.close();
+            
         } catch (IOException e) {
             System.err.println("errore nella ricezioni di dati dal server");
             System.err.println(e);

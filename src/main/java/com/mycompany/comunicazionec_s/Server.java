@@ -30,7 +30,7 @@ public class Server {
         public Socket attendi() {
         //consento l'ingresso di dati dalla porta
         try {
-            System.out.println("il server è in ascolto");
+            System.out.println("il server è in attesa di una connessione da un client");
             cSocket = sSocket.accept(); //attende connessioni finche il client non si collega
             System.out.println("Connessione Accettata da " + cSocket);
         } catch (BindException e) {
@@ -65,7 +65,7 @@ public class Server {
             
             out.println("dati inviati correttamente!");
             
-            out.close();
+           
         } catch (IOException e) {
             System.err.println("errore nell'invio della risposta al client");
             System.err.println(e);
