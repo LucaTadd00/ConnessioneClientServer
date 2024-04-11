@@ -10,15 +10,25 @@ import java.io.*;
 import java.util.Scanner;
 
 
-public class Client {
+public class Client extends Thread {
     
     private String nome;
     private String colore;
     private Socket socket;
+    private  boolean connection = true;
 
     public Client(String nome, String colore) {
         this.nome = nome;
         this.colore = colore;
+    }
+    
+    @Override
+    public void run() {
+      while(connection) {
+        scrivi();
+        leggi();
+      }
+      chiudi();
     }
 
     public void connetti(String nomeS, int portaS) {
@@ -63,6 +73,10 @@ public class Client {
          String dato = s.nextLine();
          
          out.println(dato);
+         
+         if(dato.equals("FINE")){
+         connection = false;
+         }
                  
         } catch (IOException e) {
             System.err.println("errore nell'invio di dati al server");

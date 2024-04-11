@@ -10,24 +10,38 @@ import java.io.*;
 
 public class MultiServer extends Thread {
     
-    int porta = 4002;
+    int porta;
+    int n;
+    ServerSocket serverSocket;
+    
+    public MultiServer(int porta) {
+        this.porta= porta; 
+        this.n = 1;
+    }
     
     public void run() {
        try {
-          ServerSocket serverSocket = new ServerSocket(porta);
+          serverSocket = new ServerSocket(porta);
           
           while(true) {
-           System.out.println("server in attesa di una connesione...");
+      
            Socket socket = serverSocket.accept();
-           System.out.println("connessione accettata a " + socket);
-           Server server = new Server(porta, socket);
+           System.out.println("connessione accettata a " + socket +"; Client numero :" + n);
+           Server server = new Server(porta, socket, n);
            server.start();
-           
-          }
+           n++;
+      }
           } catch (IOException ex) {
-           Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-           System.out.println("errore nel multiThreading");
-    }
+           System.out.println("errore generico del server");
+          }
 }
+    
+    public void termina() {
+        try {            
+            serverSocket.close(); //chiudo il server
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
 }
 

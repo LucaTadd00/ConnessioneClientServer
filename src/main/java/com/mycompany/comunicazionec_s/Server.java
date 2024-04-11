@@ -11,62 +11,63 @@ import java.io.*;
 
 public class Server extends Thread {
     
-    private ServerSocket sSocket;
     private Socket cSocket;
     private int porta;
+    private int numeroClient;
+    private  boolean connection = true;
+    String receivedData;
     
     
-      public Server(int porta, Socket socket) {
+      public Server(int porta, Socket socket, int n) {
         this.porta=porta;
         this.cSocket = socket;
-        try {
-           this.sSocket=new ServerSocket(porta);  //socket(), bind(), listen();
-           
-        } catch (IOException ex) {
-           Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-           System.out.println("errore nella fase di ascolto");
-        }
+        this.numeroClient = n;
     }
-      
-        public Socket attendi() {
-        //consento l'ingresso di dati dalla porta
-        try {
-            System.out.println("il server è in attesa di una connessione da un client");
-            System.out.println("Connessione Accettata da " + cSocket);
-        } catch (BindException e) {
-            System.err.println(e);
-            System.out.println("server gia avviato e occupa la porta");
-        } catch (IOException e) {
-            System.err.println(e);
-            System.out.println("Connessione fallita al metodo accept()");
+     
+    @Override  
+    public void run() {
+        while(connection) {
+    leggi();
+    scrivi();
         }
-        return cSocket;
+    chiudi();    
     } 
         
     public void leggi() {
         try {
             InputStream inputStream = cSocket.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            
+            receivedData = in.readLine();
                        
-            System.out.println("Dati ricevuti dal client: " + in.readLine());
+            System.out.println("Dati ricevuti dal client numero " + numeroClient + ": " + receivedData );
+            
+            if(receivedData.equals("FINE")) {
+            connection = false;
+            }
             
             
         } catch (IOException e) {
             System.err.println("errore nella ricezione di dati dal client");
+            chiudi();
+            connection = false;
         } finally {
             
         }
     }
 
     public void scrivi() {
-        try {
-            OutputStream outputStream = cSocket.getOutputStream();
-            PrintWriter out = new PrintWriter(outputStream, true);
-            
-            out.println("dati inviati correttamente!");
-            
+    try {
+      OutputStream outputStream = cSocket.getOutputStream();
+      PrintWriter out = new PrintWriter(outputStream, true);
+       if (connection == true) {
            
-        } catch (IOException e) {
+            out.println("dati inviati correttamente; sei il client numero " + numeroClient + "!");
+            
+      } else {
+         out.println("Hai richiesto la chiusura, chiusura connessione in corso...");
+      }       
+    } catch (IOException e) {
             System.err.println("errore nell'invio della risposta al client");
             System.err.println(e);
         }
@@ -74,7 +75,7 @@ public class Server extends Thread {
 
     public void chiudi() {
         try {           
-            System.out.println("chiusura connessione col client");
+            System.out.println("chiusura connessione col client numero " + numeroClient);
             cSocket.close(); //chiudo la connessione col client
         } catch (IOException e) {
             System.err.println(e);
@@ -82,13 +83,6 @@ public class Server extends Thread {
       
     }
 
-    public void termina() {
-        try {            
-            sSocket.close(); //chiudo il server
-        } catch (IOException e) {
-            System.err.println(e);
-        }
-    }
       
       
 }
