@@ -2,10 +2,6 @@ package com.mycompany.comunicazionec_s;
 
 import java.util.Scanner;
 
-/**
- *
- * @author asuf507zu4lp054w
- */
 public class MainClient {
 
     public static void main(String[] args) {

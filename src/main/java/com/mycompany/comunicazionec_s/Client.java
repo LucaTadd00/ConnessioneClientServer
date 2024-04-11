@@ -9,6 +9,7 @@ import java.net.ConnectException;
 import java.io.*;
 import java.util.Scanner;
 
+
 public class Client {
     
     private String nome;

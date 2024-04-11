@@ -9,15 +9,16 @@ import java.net.BindException;
 import java.io.*;
 
 
-public class Server {
+public class Server extends Thread {
     
     private ServerSocket sSocket;
     private Socket cSocket;
     private int porta;
     
     
-      public Server(int porta) {
+      public Server(int porta, Socket socket) {
         this.porta=porta;
+        this.cSocket = socket;
         try {
            this.sSocket=new ServerSocket(porta);  //socket(), bind(), listen();
            
@@ -31,7 +32,6 @@ public class Server {
         //consento l'ingresso di dati dalla porta
         try {
             System.out.println("il server è in attesa di una connessione da un client");
-            cSocket = sSocket.accept(); //attende connessioni finche il client non si collega
             System.out.println("Connessione Accettata da " + cSocket);
         } catch (BindException e) {
             System.err.println(e);

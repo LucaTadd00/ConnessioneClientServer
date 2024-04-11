@@ -12,6 +12,7 @@ public class MainServer {
       Scanner s = new Scanner(System.in);
       String r = "si";
       String b = "si";
+      
       boolean i = true;
       Server server=new Server(4002); //crea il server e apre la porta 4002
        while(b.equals("si")){
