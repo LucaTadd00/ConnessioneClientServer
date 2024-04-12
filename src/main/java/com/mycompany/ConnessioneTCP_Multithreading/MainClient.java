@@ -1,4 +1,4 @@
-package com.mycompany.comunicazionec_s;
+package com.mycompany.ConnessioneTCP_Multithreading;
 
 import java.util.Scanner;
 

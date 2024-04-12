@@ -1,11 +1,8 @@
-package com.mycompany.comunicazionec_s;
+package com.mycompany.ConnessioneTCP_Multithreading;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.BindException;
 import java.io.*;
 
 public class MultiServer extends Thread {

@@ -1,4 +1,4 @@
-package com.mycompany.comunicazionec_s;
+package com.mycompany.ConnessioneTCP_Multithreading;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
